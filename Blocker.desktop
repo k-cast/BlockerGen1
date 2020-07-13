@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SpotterGen2.0
+Icon=/home/pi/Desktop/BlockerGen1/bee.png
+Exec=/home/pi/Desktop/BlockerGen1_gui.py
+Terminal=false
