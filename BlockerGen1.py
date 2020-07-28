@@ -19,9 +19,9 @@ yfeed = 10000
 zfeed = 2000
 
 # This is the position in the back left corner of the nest #
-xoffset = -53.1
-yoffset = -195.35
-zoffset = -20
+xoffset = -44.1
+yoffset = -153.15
+zoffset = 10.8
 
 ## Convert robot config to bytes ##
 xoffset = bytes(str(xoffset), 'ascii')
@@ -107,9 +107,9 @@ def initialize():
     pump.write(b'\r\n\r\n') #don't know if the pump sleeps
     time.sleep(1)
     pump.flushInput()
-    pump.write(b'/1W4R\r\n') #initialize the pump
+    pump.write(b'/1ZR\r\n') #initialize pump 1
+    pump.write(b'/2ZR\r\n') #initialize pump 2
     print('initializing the pump')
-    pumpwait()
 
 
     # Wake up robot
@@ -118,19 +118,21 @@ def initialize():
     time.sleep(1)   # Wait for controller to wake up
     robot.flushInput()  # Flush startup text in serial input
     robot.write(b'M203 X' + xfeed + b' Y' + yfeed + b' Z' + zfeed  + b' ;\r\n') #set feedrates
-    zmove(50, 2000)
+    zmove(80, 2000)
     robot.write(b'G28 ;\r\n') #home the XYZ robot
     robotwait()
     robot.write(b'G54 ;\r\n') #switch to workspace 1
     robot.write(b'G92 X' + xoffset + b' Y' + yoffset + b' Z' + zoffset + b' ;\r\n') #Zero to offset position
-    zmove(50, 2000)
+    zmove(80, 2000)
     ymove(40, 3000)
     
 ## dispense paths that will be used in a pattern ##
 def dispensepath1():
     # Stream g-code
-    g1file = open('/home/pi/Desktop/gcode1/gcode1.gcode','r') #open and read gcode file
-    dispensed = False
+    g1file = open('/home/pi/Desktop/gcode1/gcodeblocker.gcode','r') #open and read gcode file
+    pump.write(b'/1S17D1800R\r\n') #dispense pump 1
+    time.sleep(.1)
+    pump.write(b'/2S17D1800R\r\n')
     for line in g1file:
         l = line
         l = l.strip() # Strip all EOL characters for streaming
@@ -139,10 +141,6 @@ def dispensepath1():
             robot.write(bytes(l, 'ascii') + b'\n') # Send g-code block
             if l[1] == '1':
                 robotwait()
-        if not dispensed:
-            pump.write(b'/1D230R\r\n') #first drop
-            time.sleep(.5)
-            dispensed = True
 
 def dispensepath2():
     # Stream g-code
@@ -163,14 +161,19 @@ def sysprime():
 ## the tip filling process ##
 def fill():
     print('filling...')
-    zmove(100, 2000)     
-    xymove(30.1, 18.4, 5000) #this is just an example position where the vials will be
+    zmove(80, 2000)     
+    xymove(-44, 50, 5000) #this is just an example position where the vials will be
     zmove(15, 1000) #move tips down into vials
-    zmove(-5, 500) #slow move to bottom
-    pump.write(b'/1A' + fv + b'D400R\r\n') #fill tip and dispense 400 steps
+    zmove(14, 500) #slow move to bottom
+    pump.write(b'/2S1A24000D400R\r\n') #fill tip and dispense 400 steps
     time.sleep(5)
-    zmove(50, 2000) #move Z up
-    #pumpwait()
+    zmove(80, 2000) #move Z up
+    xmove(13, 2000) #move to second tip
+    zmove(15, 1000)
+    zmove(14, 500)
+    pump.write(b'/1S1A24000D400R\r\n') #fill second tip
+    time.sleep(5)
+    zmove(80, 2000)
 
 ## Empyting the tips ##
 def empty():
@@ -259,29 +262,10 @@ def falcon():
 ## run cardea carrier##
 def cardea():
     print('running cardea tray')
-    zmove(50, 1000) #move Z up just in case
-    tipprime()
-    xymove(27.42, -140.6, 5000) #move to the start of the first spot
+    zmove(80, 1000) #move Z up just in case
+    xymove(18.1, -135.9, 5000) #move to the start of the first spot
     zmove(5, 2000) #rapid move
-    zmove(-.5, 500) #move down to the first spot
-    for i in range(5):
-        robot.write(b'G55 ;\r\n') #set position coordinate system
-        robot_out = str(robot.readline()) # Wait for response with carriage return
-        print(' robot: ' + robot_out.strip())
-        robot.write(b'G92 X0 Y0 Z0 ;\r\n') #zeros system
-        robot_out = str(robot.readline()) # Wait for response with carriage return
-        print(' robot: ' + robot_out.strip())
-        dispensepath1()
-        time.sleep(.5)
-        zmove(10, 1000) #move up
-        if i < 4:
-            xymove(0, 28.58, 2000) #move back to the next spot
-        if i < 4:
-            zmove(0, 500)
-    robot.write(b'G54 ;\r\n') #back to cord system 1
-    xymove(93.95, -140.6, 5000) #move to the start of the first spot
-    zmove(5, 2000) #rapid move
-    zmove(-1.6, 500) #move down to the first spot
+    zmove(-2.2, 500) #move down to the first spot
     for i in range(5):
         robot.write(b'G55 ;\r\n') #set position coordinate system
         robot_out = str(robot.readline()) # Wait for response with carriage return
@@ -299,7 +283,7 @@ def cardea():
     robot.write(b'G54 ;\r\n') #back to cord system 1
     robot_out = str(robot.readline()) # Wait for response with carriage return
     print(' robot: ' + robot_out.strip())
-    zmove(50, 1000) #move up
+    zmove(80, 1000) #move up
     ymove(40, 3000)
 
 ## run cardea carrier##
