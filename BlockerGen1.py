@@ -19,9 +19,9 @@ yfeed = 10000
 zfeed = 2000
 
 # This is the position in the back left corner of the nest #
-xoffset = -44.1
-yoffset = -153.15
-zoffset = 10.8
+xoffset = -61.9
+yoffset = -171.15
+zoffset = -20.8
 
 ## Convert robot config to bytes ##
 xoffset = bytes(str(xoffset), 'ascii')
@@ -124,15 +124,15 @@ def initialize():
     robot.write(b'G54 ;\r\n') #switch to workspace 1
     robot.write(b'G92 X' + xoffset + b' Y' + yoffset + b' Z' + zoffset + b' ;\r\n') #Zero to offset position
     zmove(80, 2000)
-    ymove(40, 3000)
+    ymove(70, 3000)
     
 ## dispense paths that will be used in a pattern ##
 def dispensepath1():
     # Stream g-code
     g1file = open('/home/pi/Desktop/gcode1/gcodeblocker.gcode','r') #open and read gcode file
-    pump.write(b'/1S17D1800R\r\n') #dispense pump 1
+    pump.write(b'/1S15D4400R\r\n') #dispense pump 1
     time.sleep(.1)
-    pump.write(b'/2S17D1800R\r\n')
+    pump.write(b'/2S15D4400R\r\n')
     for line in g1file:
         l = line
         l = l.strip() # Strip all EOL characters for streaming
@@ -162,29 +162,32 @@ def sysprime():
 def fill():
     print('filling...')
     zmove(80, 2000)     
-    xymove(-44, 50, 5000) #this is just an example position where the vials will be
+    xymove(44, 53.2, 5000) #this is just an example position where the vials will be
     zmove(15, 1000) #move tips down into vials
-    zmove(14, 500) #slow move to bottom
+    zmove(2, 500) #slow move to bottom
     pump.write(b'/2S1A24000D400R\r\n') #fill tip and dispense 400 steps
-    time.sleep(5)
-    zmove(80, 2000) #move Z up
-    xmove(13, 2000) #move to second tip
-    zmove(15, 1000)
-    zmove(14, 500)
+    time.sleep(.1)
     pump.write(b'/1S1A24000D400R\r\n') #fill second tip
     time.sleep(5)
+    zmove(80, 2000) #move Z up
+    #xmove(13, 2000) #move to second tip
+    #zmove(15, 1000)
+    #zmove(2, 500)
+    #pump.write(b'/1S1A24000D400R\r\n') #fill second tip
+    #time.sleep(5)
     zmove(80, 2000)
 
 ## Empyting the tips ##
 def empty():
     print('emptying...')
-    zmove(100, 1000)        
-    xymove(97, 17.2, 5000) #this is just an example position where the vials will be
-    zmove(15, 1000) #move tips down into vials
-    pump.write(b'/1A0R\r\n') #move the syringes to 0
-    time.sleep(8) #wait just in case
-    zmove(100, 2000) #move Z up
-    #pumpwait()
+    zmove(80, 1000)        
+    xymove(44, 53.2, 5000) #this is just an example position where the vials will be
+    zmove(60, 1000) #move tips down into vials
+    pump.write(b'/1S1A0R\r\n') #empty syringe 1
+    pump.write(b'/2S1A0R\r\n') #empty syringe 2
+    time.sleep(5) #wait just in case
+    zmove(80, 2000) #move Z up
+    ymove(70, 1000)
 
 ## Move the tip to the back left corner of the nest to check calibration ##
 def origin():
@@ -236,7 +239,7 @@ def falcon():
     print('running babalu tray')
     zmove(50, 1000) #move Z up just in case
     tipprime()
-    xymove(75.91, -145.5, 5000) #move to the start of the first spot
+    xymove(75.86, -145.7, 5000) #move to the start of the first spot
     zmove(5, 2000) #rapid move
     zmove(-.5, 500) #move down to the first spot
     for i in range(3):
@@ -262,8 +265,9 @@ def falcon():
 ## run cardea carrier##
 def cardea():
     print('running cardea tray')
+    fill()
     zmove(80, 1000) #move Z up just in case
-    xymove(18.1, -135.9, 5000) #move to the start of the first spot
+    xymove(17.5, -135.2, 5000) #move to the start of the first spot
     zmove(5, 2000) #rapid move
     zmove(-2.2, 500) #move down to the first spot
     for i in range(5):
@@ -284,7 +288,7 @@ def cardea():
     robot_out = str(robot.readline()) # Wait for response with carriage return
     print(' robot: ' + robot_out.strip())
     zmove(80, 1000) #move up
-    ymove(40, 3000)
+    ymove(70, 3000)
 
 ## run cardea carrier##
 def gaia():
