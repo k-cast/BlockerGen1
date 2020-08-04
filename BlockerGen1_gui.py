@@ -50,11 +50,11 @@ babaluButton['font'] = buttonFont
 falconButton = Button(root, text='RUN\n FALCON', bg='purple1', height=4, command=falcon)
 falconButton['font'] = buttonFont
 
-cardeaButton = Button(root, text='RUN\n CARDEA/GAIA', bg='orchid1', height=4, command=cardea) 
-cardeaButton['font'] = buttonFont
+vBbase = Button(root, text='BLOCK\n vB BASES', bg='purple1', height=8, command=vBbase) 
+vBbase['font'] = buttonFont
 
-gaiaButton = Button(root, text='RUN\n GAIA', bg='orchid1', height=4, command=gaia) 
-gaiaButton['font'] = buttonFont
+vBlid = Button(root, text='BLOCK\n vB LIDS', bg='orchid1', height=8, command=vBlid) 
+vBlid['font'] = buttonFont
 
 sysprimeButton.grid(row=0, column=1, padx=5, pady=5, sticky='nsew')
 originButton.grid(row=1, column=1, padx=5, pady=5, sticky='nsew')
@@ -62,10 +62,10 @@ initButton.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
 exitButton.grid(row=0, column=2, padx=5, pady=5, sticky='nsew')
 fillButton.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
 emptyButton.grid(row=1, column=2, padx=5, pady=5, sticky='nsew')
-babaluButton.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
-falconButton.grid(row=2, column=2, padx=5, pady=5, sticky='nsew')
-cardeaButton.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
-gaiaButton.grid(row=3, column=2, padx=5, pady=5, sticky='nsew')
+#babaluButton.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
+#falconButton.grid(row=2, column=2, padx=5, pady=5, sticky='nsew')
+vBbase.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
+vBlid.grid(row=3, column=2, padx=5, pady=5, sticky='nsew')
 
 if __name__ == '__main__':
     root.mainloop()
