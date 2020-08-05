@@ -272,7 +272,7 @@ def vBbase():
     print('running cardea tray')
     fill()
     zmove(80, 1000) #move Z up just in case
-    xymove(17.5, -137.5, 5000) #move to the start of the first block
+    xymove(17.5, -135.75, 5000) #move to the start of the first block
     zmove(5, 2000) #rapid move
     zmove(-2.5, 500) #move down to the first block
     for i in range(5):
@@ -300,7 +300,7 @@ def vBlid():
     print('running cardea tray')
     fill()
     zmove(80, 1000) #move Z up just in case
-    xymove(16.8, -137, 5000) #move to the start of the first block
+    xymove(16.8, -136.5, 5000) #move to the start of the first block
     zmove(5, 2000) #rapid move
     zmove(-1.6, 500) #move down to the first block
     for i in range(5):
