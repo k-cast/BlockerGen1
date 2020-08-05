@@ -146,9 +146,9 @@ def dispensepath2():
     # Stream g-code
     # Stream g-code
     g1file = open('/home/pi/Desktop/gcode1/gcodeblocker.gcode','r') #open and read gcode file
-    pump.write(b'/1S16D1000R\r\n') #dispense pump 1
+    pump.write(b'/1S15D1200R\r\n') #dispense pump 1
     time.sleep(.1)
-    pump.write(b'/2S16D1000R\r\n')
+    pump.write(b'/2S15D1200R\r\n')
     for line in g1file:
         l = line
         l = l.strip() # Strip all EOL characters for streaming
@@ -170,9 +170,9 @@ def fill():
     xymove(44, 53.2, 5000) #this is just an example position where the vials will be
     zmove(15, 1000) #move tips down into vials
     zmove(-6, 500) #slow move to bottom
-    pump.write(b'/2S1A6000D400R\r\n') #fill tip and dispense 400 steps
+    pump.write(b'/2S1A6800D400R\r\n') #fill tip and dispense 400 steps
     time.sleep(.1)
-    pump.write(b'/1S1A6000D400R\r\n') #fill second tip
+    pump.write(b'/1S1A6800D400R\r\n') #fill second tip
     time.sleep(3)
     zmove(80, 2000) #move Z up
     #xmove(13, 2000) #move to second tip
@@ -272,7 +272,7 @@ def vBbase():
     print('running cardea tray')
     fill()
     zmove(80, 1000) #move Z up just in case
-    xymove(17.5, -135.75, 5000) #move to the start of the first block
+    xymove(17.5, -135.35, 5000) #move to the start of the first block
     zmove(5, 2000) #rapid move
     zmove(-2.5, 500) #move down to the first block
     for i in range(5):
@@ -300,9 +300,9 @@ def vBlid():
     print('running cardea tray')
     fill()
     zmove(80, 1000) #move Z up just in case
-    xymove(16.8, -136.5, 5000) #move to the start of the first block
+    xymove(16.8, -134.8, 5000) #move to the start of the first block
     zmove(5, 2000) #rapid move
-    zmove(-1.6, 500) #move down to the first block
+    zmove(-2.0, 500) #move down to the first block
     for i in range(5):
         robot.write(b'G55 ;\r\n') #set position coordinate system
         robot_out = str(robot.readline()) # Wait for response with carriage return
