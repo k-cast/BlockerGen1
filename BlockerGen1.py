@@ -274,7 +274,7 @@ def vBbase():
     zmove(80, 1000) #move Z up just in case
     xymove(17.5, -135.35, 5000) #move to the start of the first block
     zmove(5, 2000) #rapid move
-    zmove(-2.5, 500) #move down to the first block
+    zmove(-3, 500) #move down to the first block
     for i in range(5):
         robot.write(b'G55 ;\r\n') #set position coordinate system
         robot_out = str(robot.readline()) # Wait for response with carriage return
