@@ -118,7 +118,7 @@ def initialize():
     time.sleep(1)   # Wait for controller to wake up
     robot.flushInput()  # Flush startup text in serial input
     robot.write(b'M203 X' + xfeed + b' Y' + yfeed + b' Z' + zfeed  + b' ;\r\n') #set feedrates
-    zmove(80, 2000)
+    #zmove(80, 2000)
     robot.write(b'G28 ;\r\n') #home the XYZ robot
     robotwait()
     robot.write(b'G54 ;\r\n') #switch to workspace 1
