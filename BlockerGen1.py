@@ -130,9 +130,9 @@ def initialize():
 def dispensepath1():
     # Stream g-code
     g1file = open('/home/pi/Desktop/gcode1/gcodeblocker.gcode','r') #open and read gcode file
-    pump.write(b'/1S15D900R\r\n') #dispense pump 1
+    pump.write(b'/1S15D1200R\r\n') #dispense pump 1
     time.sleep(.1)
-    pump.write(b'/2S15D900R\r\n')
+    pump.write(b'/2S15D1200R\r\n')
     for line in g1file:
         l = line
         l = l.strip() # Strip all EOL characters for streaming
