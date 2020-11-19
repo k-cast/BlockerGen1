@@ -19,8 +19,8 @@ yfeed = 10000
 zfeed = 2000
 
 # This is the position in the back left corner of the nest #
-xoffset = -59.8
-yoffset = -172.15
+xoffset = -57.8
+yoffset = -170.65
 zoffset = -18.2
 
 ## Convert robot config to bytes ##
@@ -118,7 +118,7 @@ def initialize():
     time.sleep(1)   # Wait for controller to wake up
     robot.flushInput()  # Flush startup text in serial input
     robot.write(b'M203 X' + xfeed + b' Y' + yfeed + b' Z' + zfeed  + b' ;\r\n') #set feedrates
-    #zmove(80, 2000)
+    zmove(40, 2000)
     robot.write(b'G28 ;\r\n') #home the XYZ robot
     robotwait()
     robot.write(b'G54 ;\r\n') #switch to workspace 1
@@ -272,9 +272,9 @@ def vBbase():
     print('running cardea tray')
     fill()
     zmove(80, 1000) #move Z up just in case
-    xymove(17.7, -136.2, 5000) #move to the start of the first block
+    xymove(19.7, -136.2, 5000) #move to the start of the first block
     zmove(5, 2000) #rapid move
-    zmove(-2.8, 500) #move down to the first block
+    zmove(-1.5, 500) #move down to the first block
     for i in range(5):
         robot.write(b'G55 ;\r\n') #set position coordinate system
         robot_out = str(robot.readline()) # Wait for response with carriage return
@@ -300,9 +300,9 @@ def vBlid():
     print('running cardea tray')
     fill()
     zmove(80, 1000) #move Z up just in case
-    xymove(17.7, -136.2, 5000) #move to the start of the first block
+    xymove(19.7, -136.2, 5000) #move to the start of the first block
     zmove(5, 2000) #rapid move
-    zmove(-1.35, 500) #move down to the first block
+    zmove(-.75, 500) #move down to the first block
     for i in range(5):
         robot.write(b'G55 ;\r\n') #set position coordinate system
         robot_out = str(robot.readline()) # Wait for response with carriage return
