@@ -20,8 +20,8 @@ zfeed = 2000
 
 # This is the position in the back left corner of the nest #
 xoffset = -57.8
-yoffset = -170.65
-zoffset = -18.2
+yoffset = -172.65
+zoffset = -18.7
 
 ## Convert robot config to bytes ##
 xoffset = bytes(str(xoffset), 'ascii')
