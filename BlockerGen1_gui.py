@@ -27,7 +27,15 @@ def ExitApplication():
     else:
         messagebox.showinfo('Return','You will now return to the application screen.')
 
-initButton = Button(root, text='INITIALIZE', bg='springgreen', command=initialize)
+def InitializePrompt():
+    MsgBox = messagebox.askquestion('Initialize','Is the robot bed clear and bottles removed?',icon = 'warning')
+    if MsgBox == 'yes':
+        initialize()
+    else:
+        messagebox.showinfo('Return','You will now return to the application screen.')
+
+
+initButton = Button(root, text='INITIALIZE', bg='springgreen', command=InitializePrompt)
 initButton['font'] = buttonFont
 
 exitButton = Button(root, text='CLOSE', width=15, fg='red', command=ExitApplication)
