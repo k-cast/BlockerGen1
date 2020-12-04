@@ -1,0 +1,10 @@
+#Fill Volume (uL)#
+2000
+#Dispense Volume (uL)#
+250
+#OFFSET POSITION X (mm)#
+-57.8
+#OFFSET POSITION Y (mm)#
+-172.65
+#OFFSET POSITION Z (mm)#
+-18.7

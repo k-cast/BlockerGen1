@@ -4,13 +4,16 @@ import time
 
 ## Pump fill configuration: ##
 
-tipvolume = 100 #how much you want to fill the tip here in ul
+config = open('/home/pi/Desktop/config.txt')
+lines = config.readlines()
 
-dispensevolume = 1.5 #how much you want to dispense per pump dispense command here in ul
+tipvolume = float(lines[1]) #how much you want to fill the tip here in ul
 
-stepsul = 192 #steps/ul 
-fv = bytes(str(stepsul*tipvolume), 'ascii') #actual steps to fill the tip used in the filling def converted to str for command
-dv = bytes(str(stepsul*dispensevolume), 'ascii') #acutal dispense steps converted to str for command
+dispensevolume = float(lines[3]) #how much you want to dispense per pump dispense command here in ul
+
+stepsul = 4.8 #steps/ul 
+fv = bytes(str(round(stepsul*tipvolume)), 'ascii') #actual steps to fill the tip used in the filling def converted to str for command
+dv = bytes(str(round(stepsul*dispensevolume)), 'ascii') #acutal dispense steps converted to str for command
 
 ## Robot configuration ##
 
@@ -19,9 +22,9 @@ yfeed = 10000
 zfeed = 2000
 
 # This is the position in the back left corner of the nest #
-xoffset = -57.8
-yoffset = -172.65
-zoffset = -18.7
+xoffset = float(lines[5])
+yoffset = float(lines[7])
+zoffset = float(lines[9])
 
 ## Convert robot config to bytes ##
 xoffset = bytes(str(xoffset), 'ascii')
@@ -130,9 +133,9 @@ def initialize():
 def dispensepath1():
     # Stream g-code
     g1file = open('/home/pi/Desktop/gcode1/gcodeblocker.gcode','r') #open and read gcode file
-    pump.write(b'/1S15D1200R\r\n') #dispense pump 1
+    pump.write(b'/1S15D' + dv + b'R\r\n') #dispense pump 1
     time.sleep(.1)
-    pump.write(b'/2S15D1200R\r\n')
+    pump.write(b'/2S15D' + dv + b'R\r\n') #dispense pump 2
     for line in g1file:
         l = line
         l = l.strip() # Strip all EOL characters for streaming
@@ -170,9 +173,9 @@ def fill():
     xymove(44, 53.2, 5000) #this is just an example position where the vials will be
     zmove(15, 1000) #move tips down into vials
     zmove(-6, 500) #slow move to bottom
-    pump.write(b'/2S1A6800D400R\r\n') #fill tip and dispense 400 steps
+    pump.write(b'/2S1A' + fv + b'D400R\r\n') #fill tip and dispense 400 steps
     time.sleep(.1)
-    pump.write(b'/1S1A6800D400R\r\n') #fill second tip
+    pump.write(b'/1S1A' + fv + b'D400R\r\n') #fill second tip
     time.sleep(3)
     zmove(80, 2000) #move Z up
     #xmove(13, 2000) #move to second tip
