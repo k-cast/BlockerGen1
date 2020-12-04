@@ -34,6 +34,12 @@ def InitializePrompt():
     else:
         messagebox.showinfo('Return','You will now return to the application screen.')
 
+def OffsetPrompt():
+    MsgBox = messagebox.askquestion('Initialize','Are you sure you want the robot to move to offset position?',icon = 'warning')
+    if MsgBox == 'yes':
+        origin()
+    else:
+        messagebox.showinfo('Return','You will now return to the application screen.')
 
 initButton = Button(root, text='INITIALIZE', bg='springgreen', command=InitializePrompt)
 initButton['font'] = buttonFont
@@ -44,7 +50,7 @@ exitButton['font'] = buttonFont
 sysprimeButton = Button(root, text='PRIME', width=17, bg='paleturquoise', command=sysprime)
 sysprimeButton['font'] = buttonFont
 
-originButton = Button(root, text='OFFSET POS.', bg='darkorange', command=origin)
+originButton = Button(root, text='OFFSET POS.', bg='darkorange', command=OffsetPrompt)
 originButton['font'] = buttonFont
 
 fillButton = Button(root, text='FILL', bg='deepskyblue', height= 3, command=fill)
