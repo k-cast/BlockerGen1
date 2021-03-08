@@ -184,6 +184,7 @@ def fill():
     #pump.write(b'/1S1A24000D400R\r\n') #fill second tip
     #time.sleep(5)
     zmove(80, 2000)
+    ymove(70, 1000)
 
 ## Empyting the tips ##
 def empty():
